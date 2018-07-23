@@ -26,7 +26,7 @@ import Foundation
 /// The header of a `JWS` object.
 public struct JWSHeader: JOSEHeader {
     let headerData: Data
-    let parameters: [String: Any]
+    var parameters: [String: Any]
 
     /// Initializes a JWS header with given parameters and their original `Data` representation.
     /// Note that this (base64-url decoded) `Data` representation has to be exactly as it was
@@ -80,55 +80,105 @@ extension JWSHeader: CommonHeaderParameterSpace {
     /// The JWK Set URL which refers to a resource for a set of JSON-encoded public keys,
     /// one of which corresponds to the key used to sign the JWS.
     public var jku: URL? {
-        return parameters["jku"] as? URL
+        get {
+            return parameters["jku"] as? URL
+        }
+        set {
+            parameters["jku"] = newValue
+        }
     }
-
-    /// The JSON Web key corresponding to the key used to digitally sign the JWS.
+    
+    /// The JSON Web key corresponding to the key used to encrypt the JWE.
     public var jwk: String? {
-        return parameters["jwk"] as? String
+        get {
+            return parameters["jwk"] as? String
+        }
+        set {
+            parameters["jwk"] = newValue
+        }
     }
-
-    /// The Key ID indicates the key which was used to secure the JWS.
+    
+    /// The Key ID indicates the key which was used to encrypt the JWE.
     public var kid: String? {
-        return parameters["kid"] as? String
+        get {
+            return parameters["kid"] as? String
+        }
+        set {
+            parameters["kid"] = newValue
+        }
     }
-
+    
     /// The X.509 URL that referes to a resource for the X.509 public key certificate
-    /// or certificate chain corresponding to the key used to sign the JWS.
+    /// or certificate chain corresponding to the key used to encrypt the JWE.
     public var x5u: URL? {
-        return parameters["x5u"] as? URL
+        get {
+            return parameters["x5u"] as? URL
+        }
+        set {
+            parameters["x5u"] = newValue
+        }
     }
-
+    
     /// The X.509 certificate chain contains the X.509 public key certificate or
-    /// certificate chain corresponding to the key used to sign the JWS.
+    /// certificate chain corresponding to the key used to encrypt the JWE.
     public var x5c: [String: Any]? {
-        return parameters["x5c"] as? [String: Any]
+        get {
+            return parameters["x5c"] as? [String: Any]
+        }
+        set {
+            parameters["x5c"] = newValue
+        }
     }
-
+    
     /// The X.509 certificate SHA-1 thumbprint of the DER encoding of the X.509 certificate
-    /// corresponding to the key used to sign the JWS.
+    /// corresponding to the key used to encrypt the JWE.
     public var x5t: String? {
-        return parameters["x5t"] as? String
+        get {
+            return parameters["x5t"] as? String
+        }
+        set {
+            parameters["x5t"] = newValue
+        }
     }
-
+    
     /// The X.509 certificate SHA-256 thumbprint of the DER encoding of the X.509 certificate
-    /// corresponding to the key used to sign the JWS.
+    /// corresponding to the key used to encrypt the JWE.
     public var x5tS256: String? {
-        return parameters["jwk"] as? String
+        get {
+            return parameters["x5tS256"] as? String
+        }
+        set {
+            parameters["x5tS256"] = newValue
+        }
     }
-
-    /// The type to declare the media type of the JWS object.
+    
+    /// The type to declare the media type of the JWE object.
     public var typ: String? {
-        return parameters["typ"] as? String
+        get {
+            return parameters["typ"] as? String
+        }
+        set {
+            parameters["typ"] = newValue
+        }
     }
-
+    
     /// The content type to declare the media type of the secured content (payload).
     public var cty: String? {
-        return parameters["cty"] as? String
+        get {
+            return parameters["cty"] as? String
+        }
+        set {
+            parameters["cty"] = newValue
+        }
     }
-
+    
     /// The critical header parameter indicates the header parameter extensions.
     public var crit: [String]? {
-        return parameters["crit"] as? [String]
+        get {
+            return parameters["crit"] as? [String]
+        }
+        set {
+            parameters["crit"] = newValue
+        }
     }
 }
