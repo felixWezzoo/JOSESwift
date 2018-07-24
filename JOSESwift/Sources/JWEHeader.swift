@@ -25,7 +25,7 @@ import Foundation
 
 /// The header of a `JWE` object.
 public struct JWEHeader: JOSEHeader {
-    let headerData: Data
+    var headerData: Data
     var parameters: [String: Any]
 
     /// Initializes a JWE header with given parameters and their original `Data` representation.
@@ -69,6 +69,15 @@ public struct JWEHeader: JOSEHeader {
         // swiftlint:disable:next force_try
         try! self.init(parameters: parameters, headerData: headerData)
     }
+    
+    mutating func updateHeaderData() {
+        do {
+            let headerData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            self.headerData = headerData
+        } catch {
+            NSLog("ERROR: headerData could not be generated")
+        }
+    }
 }
 
 // Header parameters that are specific to a JWE Header.
@@ -100,6 +109,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["jku"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -110,6 +120,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["jwk"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -120,6 +131,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["kid"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -131,6 +143,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["x5u"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -142,6 +155,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["x5c"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -153,6 +167,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["x5t"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -164,6 +179,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["x5tS256"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -174,6 +190,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["typ"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -184,6 +201,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["cty"] = newValue
+            updateHeaderData()
         }
     }
 
@@ -194,6 +212,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
         }
         set {
             parameters["crit"] = newValue
+            updateHeaderData()
         }
     }
 }
